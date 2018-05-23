@@ -1,0 +1,6 @@
+<h2 mat-dialog-title>Delete {{ data.timeStr }}</h2>
+<mat-dialog-content>Are you sure?</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-raised-button [mat-dialog-close]="false">No</button>
+  <button mat-raised-button color="warn" [mat-dialog-close]="true">Yes</button>
+</mat-dialog-actions>

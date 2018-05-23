@@ -1,0 +1,5 @@
+<mat-card>
+  <app-scrambler></app-scrambler>
+  <app-db-handler></app-db-handler>
+  <div #timerText class="timerText" [ngStyle]="{'color': timerColors[timing]}">{{ timeString }}</div>
+</mat-card>
