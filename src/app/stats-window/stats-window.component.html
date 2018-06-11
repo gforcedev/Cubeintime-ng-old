@@ -4,8 +4,8 @@
     <mat-grid-tile>
       <div id="timeListContainer">
         <mat-grid-list cols="3" rowHeight="2:1" id="timeList" gutterSize="1px">
-          <mat-grid-tile *ngFor="let time of dbHandler.times | async" class="timeCard" (click)="dbHandler.setViewingTime(time)">
-            <mat-card class="timeCard2" [style]="dbHandler.getCardPenaltyStyle(time)">
+          <mat-grid-tile *ngFor="let time of this.dbHandler.times | async" class="timeCard" (click)="this.dbHandler.setViewingTime(time)">
+            <mat-card class="timeCard2" [style]="this.dbHandler.getCardPenaltyStyle(time)">
               {{ time.timeStr }}
             </mat-card>
           </mat-grid-tile>
@@ -15,14 +15,14 @@
     
     <mat-grid-tile>
       <mat-list>
-        <mat-list-item>Time: {{ dbHandler.viewingTime.timeStr }}</mat-list-item>
+        <mat-list-item>Time: {{ this.dbHandler.viewingTime.timeStr }}</mat-list-item>
         <mat-divider></mat-divider>
-        <mat-list-item>Scramble: {{ dbHandler.viewingTime.scramble }}</mat-list-item>
+        <mat-list-item>Scramble: {{ this.dbHandler.viewingTime.scramble }}</mat-list-item>
         <mat-divider></mat-divider>
         <mat-list-item>
-          <button mat-raised-button color="{{ dbHandler.getPenaltyButtonColor(0) }}" (click)="dbHandler.setPenalty(0)">No Penalty</button>
-          <button mat-raised-button color="{{ dbHandler.getPenaltyButtonColor(1) }}" (click)="dbHandler.setPenalty(1)">+2</button>
-          <button mat-raised-button color="{{ dbHandler.getPenaltyButtonColor(2) }}" (click)="dbHandler.setPenalty(2)">DNF</button>
+          <button mat-raised-button color="{{ this.dbHandler.getPenaltyButtonColor(0) }}" (click)="this.dbHandler.setPenalty(0)">No Penalty</button>
+          <button mat-raised-button color="{{ this.dbHandler.getPenaltyButtonColor(1) }}" (click)="this.dbHandler.setPenalty(1)">+2</button>
+          <button mat-raised-button color="{{ this.dbHandler.getPenaltyButtonColor(2) }}" (click)="this.dbHandler.setPenalty(2)">DNF</button>
         </mat-list-item>
         <mat-divider></mat-divider>
         <mat-list-item>
@@ -32,11 +32,11 @@
     </mat-grid-tile>
     <mat-grid-tile>
       <mat-list>
-        <mat-list-item>Average of 5: {{ dbHandler.averages[0] }}</mat-list-item>
+        <mat-list-item>Average of 5: {{ this.dbHandler.averages[0] }}</mat-list-item>
         <mat-divider></mat-divider>
-        <mat-list-item>Average of 12: {{ dbHandler.averages[1] }}</mat-list-item>
+        <mat-list-item>Average of 12: {{ this.dbHandler.averages[1] }}</mat-list-item>
         <mat-divider></mat-divider>
-        <mat-list-item>Average of 50: {{ dbHandler.averages[2] }}</mat-list-item>
+        <mat-list-item>Average of 50: {{ this.dbHandler.averages[2] }}</mat-list-item>
       </mat-list></mat-grid-tile>
   </mat-grid-list>
   <script type="text/javascript">
