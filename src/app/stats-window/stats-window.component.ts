@@ -11,7 +11,7 @@ import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 export class StatsWindowComponent implements OnInit {
 
   @ViewChild(DbHandlerComponent)
-  private dbHandler : DbHandlerComponent;
+  public dbHandler : DbHandlerComponent;
 
   constructor(public dialog: MatDialog) {}
   

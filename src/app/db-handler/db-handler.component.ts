@@ -23,7 +23,7 @@ export interface Time { time: number,
 export class DbHandlerComponent implements OnInit {
 
   private timesCollection: AngularFirestoreCollection<Time>;
-  private times: Observable<Time[]>;
+  public times: Observable<Time[]>;
   public viewingTime: Time;
   public penaltyStrings = ['No Penalty', '+2', 'DNF'];
   public penaltyStyles = ['', '', 'text-decoration: line-through'];
