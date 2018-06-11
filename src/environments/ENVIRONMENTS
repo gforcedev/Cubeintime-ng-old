@@ -1,0 +1,14 @@
+// This folder should contain environments.ts and environments.prod.ts files, both with the following contents:
+
+
+export const environment = {
+  production: false,
+  firebase : {
+    apiKey: "<insert_api_key_here>",
+    authDomain: "<insert_project_here>.firebaseapp.com",
+    databaseURL: "https://<insert_project_here>.firebaseio.com",
+    projectId: "insert_project_here",
+    storageBucket: "<insert_project_here>.appspot.com",
+    messagingSenderId: "insert_id_here"
+  }
+};
