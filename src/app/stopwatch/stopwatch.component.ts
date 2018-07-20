@@ -29,6 +29,8 @@ export class StopwatchComponent implements OnInit {
   
 
   time = 0;
+  start = 0;
+  
   timeString = '0.00';
   timerColors = ['#76FF03', '#000000', '#F44336', '#000000'];
   timeInterval = null;
@@ -62,10 +64,11 @@ export class StopwatchComponent implements OnInit {
       this.down = false;
       switch (this.timing) {
         case 0: {
-          this.timeInterval = setInterval(() => {
-            this.updateTimer();
-          }, 10);
-          this.timing = 1; //timing
+			this.start = Date.now();
+			this.timeInterval = setInterval(() => {
+			this.updateTimer();
+			}, 10);
+  this.timing = 1; //timing
           break;
         }
         case 2: {
@@ -89,7 +92,8 @@ export class StopwatchComponent implements OnInit {
   }
 
   updateTimer() {
-    this.time += 0.01;
+    this.time += (Date.now() - this.start) / 1000;
     this.timeString = this.dbHandler.generateTimeString(this.time);
+    this.start = Date.now();
   }
 }
