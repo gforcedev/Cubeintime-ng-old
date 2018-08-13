@@ -21,7 +21,7 @@ export class StopwatchComponent implements OnInit {
   private scrambleChip: ScramblerComponent;
   
   ngOnInit() {
-    this.scrambleChip.rescramble({}); //show first scramble
+    // this.scrambleChip.rescramble({}); //show first scramble
   }
   
   @ViewChild(DbHandlerComponent)
