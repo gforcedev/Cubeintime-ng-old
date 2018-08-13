@@ -14,12 +14,14 @@ export class ScramblerComponent implements OnInit, AfterViewChecked {
   }
   
   ngAfterViewChecked() {
-    console.log('afterviewinit');
-    this.rescramble({}); //show first scramble
+    if (!this.firstScrambleDone) {
+      this.rescramble({}); //show first scramble
+      this.firstScrambleDone = true;
+    }
   }
   
   public currentScramble = "";
-
+  private firstScrambleDone = false;
   
   
   public rescramble(e) {
@@ -27,5 +29,3 @@ export class ScramblerComponent implements OnInit, AfterViewChecked {
     // this.currentScramble = scrambleTest.puzzlesLoaded();
   }
 }
-
-//TODO: move the first rescrambling to after the js is executed (ngafterinit?)
