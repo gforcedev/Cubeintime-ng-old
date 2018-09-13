@@ -3,6 +3,7 @@ import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument 
 import { AngularFireAuth } from 'angularfire2/auth';
 import * as firebase from 'firebase/app';
 import { Observable } from 'rxjs/Observable';
+import { Subscription } from 'rxjs/Subscription';
 import { DomSanitizer } from '@angular/platform-browser';
 
 export interface Time { time: number,
@@ -13,7 +14,7 @@ export interface Time { time: number,
   penalty: number,
   created: number,
   uuid: string;
-  }
+}
 
 @Component({
   selector: 'app-db-handler',
@@ -22,8 +23,11 @@ export interface Time { time: number,
 })
 export class DbHandlerComponent implements OnInit {
 
-  private timesCollection: AngularFirestoreCollection<Time>;
-  public times: Observable<Time[]>;
+  // private timesCollections: AngularFirestoreCollection<Time>[];
+  private timesCollections = {};
+  public timesObservable: Observable<Time[]>;
+  public timesSubscription: Subscription;
+  public times = [];
   public viewingTime: Time;
   public penaltyStrings = ['No Penalty', '+2', 'DNF'];
   public penaltyStyles = ['', '', 'text-decoration: line-through'];
@@ -42,6 +46,20 @@ export class DbHandlerComponent implements OnInit {
     created: Date.now(),
     uuid: ''
   };
+  public currentPuzzle = '333';
+  public puzzleIds = [
+    {'id': '222', 'name': '2x2x2 cube'},
+    {'id': '333', 'name': '3x3x3 cube'},
+    {'id': '444', 'name': '4x4x4 cube'},
+    {'id': '555', 'name': '5x5x5 cube'},
+    {'id': '666', 'name': '6x6x6 cube'},
+    {'id': '777', 'name': '7x7x7 cube'},
+    {'id': 'pyram', 'name': 'Pyraminx'},
+    {'id': 'sq1', 'name': 'Square-1'},
+    {'id': 'minx', 'name': 'Megaminx'},
+    {'id': 'clock', 'name': 'Rubik\'s Clock'},
+    {'id': 'skewb', 'name': 'Skewb'},
+  ]
   
   constructor(public afAuth: AngularFireAuth, private afs: AngularFirestore, private sanitizer: DomSanitizer) {
     this.setViewingTime(this.blankViewingTime);
@@ -49,16 +67,20 @@ export class DbHandlerComponent implements OnInit {
     
     afAuth.authState.subscribe(res => {
       if(res) {
-        this.timesCollection = afs.collection<Time>('users/' + res.uid + '/times', ref => ref.orderBy('created', 'desc'));
-        this.times = this.timesCollection.valueChanges();
-        this.times.subscribe(e => {
-          this.mostRecentTime = e[0];
+        this.timesCollections = [];
+        for (let p of this.puzzleIds) {
+          this.timesCollections[p.id] = afs.collection<Time>('users/' + res.uid + '/times', ref => ref.where('type', '==', p.id).orderBy('created', 'desc'));
+        }
+        this.timesObservable = this.timesCollections[this.currentPuzzle].valueChanges();
+        this.timesSubscription = this.timesObservable.subscribe(e => {
+          this.times = e;
+          this.mostRecentTime = this.times[0];
           if (!this.dontUpdateViewingTime) {
             this.setViewingTime(this.mostRecentTime || this.blankViewingTime);
           } else {
             this.dontUpdateViewingTime = false;
           }
-          this.averages = this.genAverages(e);
+          this.averages = this.genAverages(this.times);
         });
       }
     });
@@ -84,11 +106,11 @@ export class DbHandlerComponent implements OnInit {
     var uuid = this.uuidv4();
     e.uuid = uuid;
     this.setViewingTime(e);
-    this.timesCollection.doc(uuid).set(e);
+    this.timesCollections[this.currentPuzzle].doc(uuid).set(e);
   }
   
   deleteViewingTime() {
-    this.timesCollection.doc(this.viewingTime.uuid).delete();
+    this.timesCollections[this.currentPuzzle].doc(this.viewingTime.uuid).delete();
     this.setViewingTime(this.mostRecentTime || this.blankViewingTime);
   }
   
@@ -96,6 +118,22 @@ export class DbHandlerComponent implements OnInit {
   setViewingTime(e) {
     this.viewingTime = e;
     this.currentlyViewing = e.uuid;
+  }
+  
+  refreshForDifferentPuzzle() {
+    this.timesObservable = this.timesCollections[this.currentPuzzle].valueChanges();
+    this.timesSubscription.unsubscribe();
+    this.timesSubscription = null;
+    this.timesSubscription = this.timesObservable.subscribe(e => {
+      this.times = e;
+      this.mostRecentTime = this.times[0];
+      if (!this.dontUpdateViewingTime) {
+        this.setViewingTime(this.mostRecentTime || this.blankViewingTime);
+      } else {
+        this.dontUpdateViewingTime = false;
+      }
+      this.averages = this.genAverages(this.times);
+    });
   }
   
   getPenaltyButtonColor(x) {
@@ -120,7 +158,7 @@ export class DbHandlerComponent implements OnInit {
       } else if (x == 1 && this.viewingTime.penalty != 1) { //it wasnt a +2 and now it is
         e.timeStr = this.generateTimeString(parseFloat(this.viewingTime.timeStr) + 2.00)+ '+';
       }
-      this.timesCollection.doc(this.viewingTime.uuid).update(e);
+      this.timesCollections[this.currentPuzzle].doc(this.viewingTime.uuid).update(e);
       this.viewingTime.penalty = x;
       this.viewingTime.timeStr = e.timeStr;
     }

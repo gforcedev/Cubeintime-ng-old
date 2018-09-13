@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Inject } from '@angular/core';
+import { Component, OnInit, ViewChild, Inject, Input } from '@angular/core';
 import { DbHandlerComponent } from '../db-handler/db-handler.component';
 import { DeleteDialogComponent } from '../delete-dialog/delete-dialog.component';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
@@ -12,6 +12,8 @@ export class StatsWindowComponent implements OnInit {
 
   @ViewChild(DbHandlerComponent)
   public dbHandler : DbHandlerComponent;
+  
+  @Input() event: Event;
 
   constructor(public dialog: MatDialog) {}
   

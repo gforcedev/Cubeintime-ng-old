@@ -5,7 +5,7 @@ import { Directive, HostListener, ElementRef, Renderer } from '@angular/core';
  * Credit to https://gist.github.com/AlejandroPerezMartin/ecd014cb8104c235b582f3a3e1649cf7
  */
 @Directive({
-	selector: 'button, a' // your selectors here!
+	selector: 'button, a, mat-grid-tile, mat-list, mat-list-item, mat-select' // your selectors here!
 })
 export class FocusRemover {
 

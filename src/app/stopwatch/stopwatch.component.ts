@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, Renderer2 } from '@angular/core';
+import { Component, OnInit, ViewChild, Output, EventEmitter, ElementRef, Renderer2, Input } from '@angular/core';
 import { ScramblerComponent } from '../scrambler/scrambler.component';
 import { DbHandlerComponent } from '../db-handler/db-handler.component'
 
@@ -16,18 +16,18 @@ export class StopwatchComponent implements OnInit {
 
   constructor() {
   }
+  
+  @Output() eventScrambleTypeChanged = new EventEmitter<any>();
 
   @ViewChild(ScramblerComponent)
   private scrambleChip: ScramblerComponent;
   
   ngOnInit() {
-    // this.scrambleChip.rescramble({}); //show first scramble
   }
   
   @ViewChild(DbHandlerComponent)
-  private dbHandler : DbHandlerComponent;
+  public dbHandler: DbHandlerComponent;
   
-
   time = 0;
   start = 0;
   
@@ -75,14 +75,14 @@ export class StopwatchComponent implements OnInit {
           this.dbHandler.addTime({
             time : this.time,
             timeStr: this.timeString.toString(),
-            type: '3x3',
+            type: this.dbHandler.currentPuzzle,
             subtype: 'default',
             scramble: this.scrambleChip.currentScramble,
             penalty: 0,
             created: Date.now()
           });
           
-          this.scrambleChip.rescramble({});
+          this.scrambleChip.rescramble(this.dbHandler.currentPuzzle);
           this.timing = 3; //done
           break;
         }

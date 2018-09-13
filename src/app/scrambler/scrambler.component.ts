@@ -15,17 +15,17 @@ export class ScramblerComponent implements OnInit, AfterViewChecked {
   
   ngAfterViewChecked() {
     if (!this.firstScrambleDone) {
-      this.rescramble({}); //show first scramble
+      this.rescramble('333'); //show first scramble
       this.firstScrambleDone = true;
     }
   }
   
-  public currentScramble = "";
+  public currentScramble = 'scrambling...';
   private firstScrambleDone = false;
   
   
-  public rescramble(e) {
-    this.currentScramble = GLOBALPUZZLES['333'].generateScramble();
-    // this.currentScramble = scrambleTest.puzzlesLoaded();
+  public rescramble(puzzle) {
+    this.currentScramble = 'scrambling...';
+    this.currentScramble = GLOBALPUZZLES[puzzle].generateScramble();
   }
 }

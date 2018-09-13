@@ -1,5 +1,5 @@
 mat-chip {
-    display: block;
+    display: inline-block;
     margin: auto;
     font-size: 1.4em;
     text-align: center;

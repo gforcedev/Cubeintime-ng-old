@@ -2,6 +2,24 @@ mat-card {
     text-align: center;
 }
 
+.scrambling {
+    display: block;
+    text-align: center;
+}
+
+app-scrambler {
+    display: inline-block;
+}
+
+mat-select {
+    position: absolute;
+    left: 1;
+    padding-left: 5%;
+    display: inline-block;
+    width: 15%;
+    margin: auto;
+}
+
 .timerText {
     font-family: sans-serif;
 

@@ -1,5 +1,18 @@
 <mat-card>
-  <app-scrambler></app-scrambler>
-  <app-db-handler></app-db-handler>
+  <div class="scrambling">
+    <app-scrambler></app-scrambler>
+    <mat-select
+      (change)="this.scrambleChip.rescramble(this.dbHandler.currentPuzzle);
+        this.dbHandler.refreshForDifferentPuzzle();
+        this.eventScrambleTypeChanged.emit({puzzle : this.dbHandler.currentPuzzle});"
+      [(value)]="dbHandler.currentPuzzle">
+      <mat-option
+        *ngFor="let puzzle of dbHandler.puzzleIds"
+        [value]="puzzle.id">
+        {{ puzzle.name }}
+      </mat-option>
+    </mat-select>
+  </div>
   <div #timerText class="timerText" [ngStyle]="{'color': timerColors[timing]}">{{ timeString }}</div>
 </mat-card>
+<app-db-handler></app-db-handler>

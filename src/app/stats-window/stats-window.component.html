@@ -4,7 +4,7 @@
     <mat-grid-tile>
       <div id="timeListContainer">
         <mat-grid-list cols="3" rowHeight="2:1" id="timeList" gutterSize="1px">
-          <mat-grid-tile *ngFor="let time of dbHandler.times | async" class="timeCard" (click)="dbHandler.setViewingTime(time)">
+          <mat-grid-tile *ngFor="let time of dbHandler.times" class="timeCard" (click)="dbHandler.setViewingTime(time)">
             <mat-card class="timeCard2" [style]="dbHandler.getCardPenaltyStyle(time)">
               {{ time.timeStr }}
             </mat-card>
