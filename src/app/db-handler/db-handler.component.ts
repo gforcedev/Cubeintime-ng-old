@@ -178,7 +178,7 @@ export class DbHandlerComponent implements OnInit {
       if (this.viewingTime.penalty == 1 && x != 1) { //it used to be a +2 and isnt now
         e.timeStr = this.generateTimeString(e.time);
       } else if (x == 1 && this.viewingTime.penalty != 1) { //it wasnt a +2 and now it is
-        e.timeStr = this.generateTimeString(e.time + 2.00)+ '+';
+        e.timeStr = this.generateTimeString(e.time + 2.00) + '+';
       }
       this.timesCollections[this.currentPuzzle].doc(this.viewingTime.uuid).update(e);
       this.viewingTime.penalty = x;
