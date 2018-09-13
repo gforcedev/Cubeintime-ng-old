@@ -10,6 +10,13 @@
 </head>
 <body>
   <app-root></app-root>
-  <script src="assets/scramble_333.js"></script>
+  <script type="text/javascript">
+    window.onkeydown = function(e) {
+      var elem = e.target.nodename;
+        if( elem !== 'TEXTAREA' && elem != 'INPUT' ) {
+            return !(e.keyCode == 32);
+        }
+    };
+  </script>
 </body>
 </html>

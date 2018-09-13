@@ -26,7 +26,6 @@ import { ScramblerComponent } from './scrambler/scrambler.component';
 import { LoginButtonComponent } from './login-button/login-button.component';
 import { StatsWindowComponent } from './stats-window/stats-window.component';
 import { DeleteDialogComponent } from './delete-dialog/delete-dialog.component';
-import { FocusRemover } from './focus-remover.directive';
 import { FooterComponent } from './footer/footer.component';
 
 
@@ -41,7 +40,6 @@ import { FooterComponent } from './footer/footer.component';
     LoginButtonComponent,
     StatsWindowComponent,
     DeleteDialogComponent,
-    FocusRemover,
     FooterComponent
   ],
   imports: [
