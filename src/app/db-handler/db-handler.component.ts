@@ -97,8 +97,30 @@ export class DbHandlerComponent implements OnInit {
   }
   
   generateTimeString(t) {
+    var hourCount = 0;
+    while (t > 3600) {
+      hourCount++;
+      t -= 3600;
+    }
+    var minCount = 0;
+    while (t > 60) {
+      minCount++;
+      t -= 60;
+    }
+    
     var s = t.toString() + '000';
-    return s.substring(0, s.indexOf('.') + 3);
+    var toReturn = s.substring(0, s.indexOf('.') + 3);
+    
+    if (minCount != 0) {
+      if (t < 10) {
+        toReturn = '0' + toReturn;
+      }
+      toReturn = minCount.toString() + ':' + toReturn;
+    }
+    if (hourCount != 0) {
+      toReturn = hourCount.toString() + ':' + toReturn;
+    }
+    return toReturn;
   }
   
   addTime(e) {
@@ -152,11 +174,11 @@ export class DbHandlerComponent implements OnInit {
   setPenalty(x) {
     if (this.mostRecentTime != null) {
       this.dontUpdateViewingTime = true; //set the flag to not change viewing time
-      var e = {penalty: x, timeStr: this.viewingTime.timeStr.toString()};
+      var e = {penalty: x, timeStr: this.viewingTime.timeStr.toString(), time: this.viewingTime.time};
       if (this.viewingTime.penalty == 1 && x != 1) { //it used to be a +2 and isnt now
-        e.timeStr = this.generateTimeString(parseFloat(this.viewingTime.timeStr.substr(0, this.viewingTime.timeStr.indexOf('+'))) - 2.00);
+        e.timeStr = this.generateTimeString(e.time);
       } else if (x == 1 && this.viewingTime.penalty != 1) { //it wasnt a +2 and now it is
-        e.timeStr = this.generateTimeString(parseFloat(this.viewingTime.timeStr) + 2.00)+ '+';
+        e.timeStr = this.generateTimeString(e.time + 2.00)+ '+';
       }
       this.timesCollections[this.currentPuzzle].doc(this.viewingTime.uuid).update(e);
       this.viewingTime.penalty = x;
