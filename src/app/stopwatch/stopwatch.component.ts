@@ -20,7 +20,7 @@ export class StopwatchComponent implements OnInit {
   @Output() eventScrambleTypeChanged = new EventEmitter<any>();
 
   @ViewChild(ScramblerComponent)
-  private scrambleChip: ScramblerComponent;
+  public scrambleChip: ScramblerComponent;
   
   ngOnInit() {
   }
